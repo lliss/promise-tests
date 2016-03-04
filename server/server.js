@@ -1,5 +1,8 @@
-http = require('http'),
-url = require('url');
+'use strict';
+
+var http = require('http');
+var url = require('url');
+var listenPort = 8001;
 
 http.createServer(function (req, res) {
   var url_parts = url.parse(req.url).pathname.split('/');
@@ -7,7 +10,7 @@ http.createServer(function (req, res) {
   var value = url_parts[2];
   var result = getActionResult(action, value);
   var wait = Math.ceil(Math.random() * 3000);
-  console.log('Waiting for ' + wait + 'miliseconds.');
+  console.log('Waiting for ' + wait + ' millisecond.');
 
   setTimeout(function() {
     res.writeHead(200, {
@@ -18,7 +21,8 @@ http.createServer(function (req, res) {
     res.end(JSON.stringify(response));
   }, wait);
 
-}).listen(8001);
+}).listen(listenPort);
+console.log('Server running at http://127.0.0.1:' + listenPort + '/');
 
 function getActionResult(action, value) {
   value = Number(value);
